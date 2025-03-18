@@ -1,3 +1,6 @@
+attacks on russia: https://securelist.com/head-mare-twelve-collaboration/115887/
+1M android hacks: https://thehackernews.com/2025/03/badbox-20-botnet-infects-1-million.html
+
 General Overview
 The BADBOX 2.0 botnet is a sophisticated and expansive cybercrime operation that has compromised around one million devices—primarily low-cost Android tablets, connected TV (CTV) boxes, digital projectors, and car infotainment systems. These devices, largely manufactured in mainland China and distributed globally, have been subverted as part of an ad fraud and residential proxy abuse scheme. The operation is not the work of a single entity; rather, multiple threat groups (including SalesTracker Group, MoYu Group, Lemon Group, and LongTV) collaborate to manage different facets of the campaign. At its core, BADBOX 2.0 leverages a backdoor (derived from the Triada Android malware and codenamed BB2DOOR) to control infected devices remotely and monetize them through various illicit activities such as generating fake ad revenue, redirecting traffic, and enabling other forms of cyber attacks like DDoS or account takeovers.
 
