@@ -1,4 +1,4 @@
-attacks on russia: https://securelist.com/head-mare-twelve-collaboration/115887/
+attacks on russia: https://securelist.com/head-mare-twelve-collaboration/115887/  
 1M android hacks: https://thehackernews.com/2025/03/badbox-20-botnet-infects-1-million.html
 
 General Overview
