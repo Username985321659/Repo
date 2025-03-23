@@ -106,7 +106,7 @@ def build_dns_response(transaction_id, domain, ip_command):
     authority_rrs = 0  # No authority records
     additional_rrs = 0  # No additional records
 
-    header = transaction_id + struct.pack("!HHHHH", flags, question_rrs, answer_rrs, authority_rrs, additional_rrs)
+    header =  struct.pack("!HHHHHH", transaction_id, flags, question_rrs, answer_rrs, authority_rrs, additional_rrs)
 
     question = encode_domain_name(domain)
 
